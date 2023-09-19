@@ -49,7 +49,7 @@ public abstract class Living {
 	}
 
 	// ターゲットに攻撃するメソッド
-	public abstract String attack();
+	public abstract void attack(Living target);
 	
 	// 自分自身を表現する文字列のオーバーライド
 	@Override
@@ -59,7 +59,7 @@ public abstract class Living {
 			alert = "★ HP残りわずか！アブナイ";
 		}
 		return String.format("[名前]: %s, [ヒットポイント]: %d, [攻撃力]: %d %s", this.name, this.hp, this.offensive, alert);
-	}
+		}
 	
 
 }
