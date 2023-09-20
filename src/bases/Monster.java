@@ -22,9 +22,8 @@ public class Monster extends Living {
 		target.setHp(target.getHp()-damage);
 
 		// コンソールにステータスを表示
-		System.out.println("「"+super.name+"」が「"+super.weapon+"」で攻撃！「"+target+"」に"+damage+"のダメージを与えた。");
+		System.out.println("\n「"+super.name+"」が「"+super.weapon+"」で攻撃！「"+target.getName()+"」に"+damage+"のダメージを与えた。");
 	}
 
 }
 
-//自分をどうあらわすか

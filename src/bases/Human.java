@@ -25,10 +25,9 @@ public abstract class Human extends Living {
 		super.setHp(super.getHp()-1);
 
 		//コンソールにステータスを表示
-		System.out.println("「"+super.name+"」が「"+super.weapon+"」で攻撃！「"+target+"」に"+damage+"のダメージを与えた。");
+		System.out.println("\n「"+super.name+"」が「"+super.weapon+"」で攻撃！「"+target.getName()+"」に"+damage+"のダメージを与えた。");
 		System.out.println("しかし自分の攻撃力も1減少した。");
 	}
 
 }
 
-//自分をどうあらわすか

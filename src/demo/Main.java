@@ -1,11 +1,17 @@
 package demo;
 
+import java.util.ArrayList;
 import java.util.List;
-import utils.Dice;
+
 import bases.Human;
+import bases.Monster;
 import humans.Brave;
 import humans.Fighter;
 import humans.Wizard;
+import monsters.Dragon;
+import monsters.Oak;
+import monsters.Slime;
+import utils.Dice;
 
 
 
@@ -22,12 +28,22 @@ public class Main {
 		List<Human> humans = new ArrayList<>();
 		
 		//勇者、戦士、魔法使いを人間グループのリストに追加
+		humans.add(brave);
+		humans.add(fighter);
+		humans.add(wizard);
 		
 		//Slime（スライム）,Oak（オーク）,Dragon（ドラゴン）クラスの各インスタンスを生成
+		Monster slime = new Slime("	キングスライム","体当たり");
+		Monster oak = new Oak("オークキング","槍");
+		Monster dragon = new Dragon("紅龍","炎");
 		
 		//モンスターグループのリストを空で生成<>();
+		List<Monster> monsters = new ArrayList<>();
 		
 		//スライム、オーク、ドラゴンをモンスターグループのリストに追加
+		monsters.add(slime);
+		monsters.add(oak);
+		monsters.add(dragon);
 		
 		//現在の各グループの状態を一覧表示
 		showGroupInfos(humans,monsters);
@@ -41,26 +57,49 @@ public class Main {
 			System.out.printf("\n[人間のターン！]\n");
 			
 			//人間グループから1人選択
+			Human select_human=choiceHuman(humans);
 			
 			//モンスターグループから1人選択
+			Monster select_monster=choiceMonster(monsters);
 			
 			//選ばれた人間が、選ばれたモンスターを攻撃
+			select_human.attack(select_monster);
 			
 			//モンスターのHPが0以下になれば、モンスターは倒れ、そのモンスターをモンスターグループから削除
-			
+			if (select_monster.getHp()<0) {
+				System.out.printf("\n★ 「%s」は倒れた。\n",select_monster.getName());
+				monsters.remove(select_monster);
+			}
 			//モンスターグループに誰もいなくなれば、人間グループの勝利
+			if (monsters.size() == 0) {
+				System.out.println("\n★★ ==== 決着がついた！！ ==== ★★\n");
+				System.out.println("\n #### 人間達は勝利した！！ #### \n");
+				break;
+			}
 			
 			System.out.println("\n[モンスターのターン！]\n");
 			
 			//人間グループから1人選択
+			Human human_select=choiceHuman(humans);
 			
 			//モンスターグループから1人選択
+			Monster monster_select=choiceMonster(monsters);
 			
 			//選ばれたモンスターが、選ばれた人間を攻撃
+			monster_select.attack(human_select);
 			
 			//人間のHPが0いかになれば、人間は倒れ、その人間をモンスターグループから削除
-			
+			if (human_select.getHp()<0) {
+				System.out.printf("\n★「%s」は倒れた。\n", human_select.getName());
+				humans.remove(human_select);
+			}
+				
 			//人間グループに誰もいなくなれば、人間グループの敗北
+			if (humans.size() == 0) {
+				System.out.println("\n★★ ==== 決着がついた！！ ==== ★★\n");
+				System.out.println("\n #### 人間達は敗北した。。。 #### \n");
+				break;
+			}
 			
 			//現在の各グループの状態を一覧表示
 			showGroupInfos(humans,monsters);
@@ -75,13 +114,13 @@ public class Main {
 	//引数でもらった人間グループリストからランダムに1人を選択し、その結果を戻り値とするメソッド
 	public static Human choiceHuman(List<Human> humans) {
 		Human human = humans.get(Dice.get(0, humans.size()-1));
-		System.out.printf("人間グループから「%s」のお出ましだ！\n", human.getName());
+		System.out.printf("\n人間グループから「%s」のお出ましだ！\n", human.getName());
 		return human;
 	}
 	
 	//引数でもらったモンスターグループリストからランダムに1人を選択し、その結果を戻り値とするメソッド
-	public static Monster choiceMonster(List<Monster> monsters>) {
-		Monster monster monsters,get(Dice,get(0,monsters.size()-1));
+	public static Monster choiceMonster(List<Monster> monsters) {
+		Monster monster = monsters.get(Dice.get(0,monsters.size()-1));
 		System.out.printf("モンスターグループから「%s」のお出ましだ！\n",monster.getName());
 		return monster;
 	}
@@ -89,7 +128,7 @@ public class Main {
 	//引数でもらった人間グループリストとモンスターグループリストのそれぞれの情報一覧を表示するメソッド
 	public static void showGroupInfos(List<Human> humans, List<Monster> monsters) {
 		
-		System.out.println("/n## === グループ情報 === ##");
+		System.out.println("\n## === グループ情報 === ##");
 		System.out.printf("#[人間グループ]: %d人\n", humans.size());
 		for(Human human : humans) {
 			System.out.println(human);
